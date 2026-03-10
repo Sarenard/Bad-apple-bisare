@@ -1,0 +1,3 @@
+[submodule "bisare_sim_rs"]
+	path = bisare_sim_rs
+	url = https://gitea.jthillard.fr/mwa/bisare_sim_rs
