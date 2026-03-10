@@ -8,14 +8,17 @@ BIN=out.bin
 FPS?=2
 SLEEP?=10000
 
-.PHONY: all frames asm run clean
+.PHONY: all framesQ1 framesQ2 asm run fastrun clean
 
-all: frames run
-
-frames:
+framesQ1:
 	rm -rf $(OUT_DIR)
 	mkdir -p $(OUT_DIR)
 	ffmpeg -i $(VIDEO) -r $(FPS) -s 48x36 $(OUT_DIR)/output_%04d.png
+
+framesQ2:
+	rm -rf $(OUT_DIR)
+	mkdir -p $(OUT_DIR)
+	ffmpeg -i $(VIDEO) -r $(FPS) -s 96x72 $(OUT_DIR)/output_%04d.png
 
 asm:
 	python3 main.py $(SLEEP)
@@ -23,6 +26,10 @@ asm:
 run: asm
 	python3 bisare/asm.py $(ASM)
 	printf "run\n" | python3 bisare/sim.py $(BIN)
+
+fastrun: asm
+	python3 bisare/asm.py $(ASM)
+	cd bisare_sim_rs && cargo run --release -- ../$(BIN)
 
 clean:
 	rm -f $(ASM) $(BIN)
