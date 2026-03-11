@@ -23,13 +23,13 @@ framesQ2:
 asm:
 	python3 main.py $(SLEEP)
 
-run: asm
+run:
 	python3 bisare/asm.py $(ASM)
 	printf "run\n" | python3 bisare/sim.py $(BIN)
 
-fastrun: asm
-	python3 bisare/asm.py $(ASM)
-	cd bisare_sim_rs && cargo run --release -- ../$(BIN)
+fastrun:
+	cd bisare_sim_rs && cargo run --release -p asm ../$(ASM) ../$(BIN)
+	cd bisare_sim_rs && cargo run --release -p simu ../$(BIN)
 
 clean:
 	rm -f $(ASM) $(BIN)
