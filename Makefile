@@ -6,7 +6,6 @@ ASM=out.asm
 BIN=out.bin
 
 FPS?=2
-SLEEP?=10000
 
 .PHONY: all framesQ1 framesQ2 asm run fastrun clean
 
@@ -21,7 +20,7 @@ framesQ2:
 	ffmpeg -i $(VIDEO) -r $(FPS) -s 96x72 $(OUT_DIR)/output_%04d.png
 
 asm:
-	python3 main.py $(SLEEP)
+	python3 main.py $(FPS)
 
 run:
 	python3 bisare/asm.py $(ASM)

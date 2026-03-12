@@ -3,7 +3,8 @@ import sys
 import os
 
 # 50000 is around 1 sec on the vanilla interpreter
-sleep = int(sys.argv[1]) if len(sys.argv) > 1 else 50000
+assert (len(sys.argv) >= 1)
+fps = int(sys.argv[1])
 
 frames = os.listdir("badapple-frames/out")
 frames.sort()
@@ -26,14 +27,16 @@ with open("out.asm", "w") as f:
     f.write("jump main\n")
     f.write("\n")
 
-    # wait()
+    # waiting using the custom clock MMIO
     f.write("wait:\n")
-    f.write("    let r2 0\n")
-    f.write(f"    let r3 {sleep}\n")
+    f.write("    let r6 0x01200004\n")
+    f.write("    load r2 [r6]\n")
+    f.write(f"    load r3 [r6]\n")
+    f.write(f"    add r3 r3 {int(1000/fps)}\n")
     f.write("wait_loop:\n")
     f.write("    skip 1 iflt r2 r3\n")
     f.write("    jump wait_end\n")
-    f.write("    add r2 r2 1\n")
+    f.write("    load r2 [r6]\n")
     f.write("    jump wait_loop\n")
     f.write("wait_end:\n")
     f.write("    ret\n")

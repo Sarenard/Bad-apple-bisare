@@ -20,11 +20,11 @@ make frames FPS=2
 Run:
 
 ```bash
-make run SLEEP=10000
+make run FPS=2
 ```
 
 The best quality avalaible now:
 
 ```bash
-make framesQ2 FPS=5 fastrun SLEEP=2000000
+make framesQ2 FPS=5 fastrun 
 ```
